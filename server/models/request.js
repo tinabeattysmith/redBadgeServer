@@ -1,21 +1,22 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
-const mealModel=
-    sequelize.define('meal', 
+const requestModel=
+    sequelize.define('request', 
     {
-        mealName: {
+        requestName: {
             type: DataTypes.String,
             allowNull: false,
         },
-        mealDescription: {
-            type: DataTypes.String,
+        categoryApproved: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
+            defaultVaue: false,
         },
-        mealComment: {
+        requestComment: {
             type: DataTypes.STRING,
             allowNull: true,
-        },
+        }
     });
 
-module.export = mealModel;
+module.export = requestModel;
