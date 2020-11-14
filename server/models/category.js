@@ -4,13 +4,13 @@ const sequelize = require("../db");
 const categoryModel=
     sequelize.define('category', 
     {
-        freezeTableName: true, // table name will not pluralize
+        // freezeTableName: true, // table name will not pluralize
         categoryName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         categoryDescription: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
     });

@@ -5,7 +5,7 @@ const requestModel=
     sequelize.define('request', 
     {
         requestName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         categoryApproved: {

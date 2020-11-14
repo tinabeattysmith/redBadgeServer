@@ -5,11 +5,11 @@ const mealModel=
     sequelize.define('meal', 
     {
         mealName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         mealDescription: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         mealComment: {

@@ -5,11 +5,11 @@ const pantryItemModel=
     sequelize.define('pantryItem', 
     {
         itemName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         itemDescription: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         importance: {

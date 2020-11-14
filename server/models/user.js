@@ -5,15 +5,15 @@ const userModel=
     sequelize.define('user', 
     {
         firstName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false
         },
         lastName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false
         },
         userName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true
         },
@@ -23,5 +23,5 @@ const userModel=
         }
     });
 
-module.export = userModel;
+module.exports = userModel;
 

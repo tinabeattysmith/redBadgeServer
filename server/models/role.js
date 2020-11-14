@@ -5,7 +5,7 @@ const roleModel=
     sequelize.define('role', 
     {
         roleName: {
-            type: DataTypes.String,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         requestDescription: {
@@ -14,4 +14,4 @@ const roleModel=
         }
     });
 
-module.export = roleModel;
+module.exports = roleModel;
