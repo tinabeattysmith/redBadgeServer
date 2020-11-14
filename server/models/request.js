@@ -19,4 +19,4 @@ const requestModel=
         }
     });
 
-module.export = requestModel;
+module.exports = requestModel;

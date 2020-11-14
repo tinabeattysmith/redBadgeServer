@@ -15,4 +15,4 @@ const categoryModel=
         },
     });
 
-module.export = categoryModel;
+module.exports = categoryModel;

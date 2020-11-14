@@ -18,4 +18,4 @@ const mealModel=
         },
     });
 
-module.export = mealModel;
+module.exports = mealModel;

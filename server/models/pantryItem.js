@@ -32,4 +32,4 @@ const pantryItemModel=
 
     });
 
-module.export = pantryItemModel;
+module.exports = pantryItemModel;
