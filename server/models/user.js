@@ -13,6 +13,7 @@ const userModel=
             allowNull: false
         },
         userName: {
+            // TODO: Figureout how to set username to be 1st letter of firstname + lastnamer\
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
