@@ -1,7 +1,6 @@
 const { PantryItemModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
-// const validateSession = require("../middleware/validate-session");
 const pantryItemController = Router();
 
 /******************
@@ -16,15 +15,7 @@ pantryItemController.post("/create", async (req, res) => {
     isUsed,
     itemComment,
   } = req.body.pantryItem;
-  console.log(
-    itemName,
-    itemDescription,
-    importance,
-    itemPrice,
-    isUsed,
-    itemComment
-  );
-
+ 
   try {
     await PantryItemModel.create({
       itemName: itemName,

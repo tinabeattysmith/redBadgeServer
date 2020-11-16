@@ -8,7 +8,7 @@ const requestModel=
             type: DataTypes.STRING,
             allowNull: false,
         },
-        categoryApproved: {
+        requestApproved: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultVaue: false,
@@ -19,4 +19,5 @@ const requestModel=
         }
     });
 
+    // requestModel.sync(); //pass in {force: true} to reset tables
 module.exports = requestModel;

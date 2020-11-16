@@ -11,4 +11,5 @@ module.exports = {
   CategoryModel: CategoryModel,
   MealModel: MealModel,
   RoleModel: RoleModel,
+  RequestModel: RequestModel,
 };

@@ -74,9 +74,9 @@ userController.post("/login", async (req, res) => {
 });
 
 /* ******************
- * Delete User Route
+ * Delete User
  ********************/
-
+//route is protected.
 userController.delete("/deleteuser", validateSession, async (req, res) => {
   try {
     const removedUser = await UserModel.destroy({

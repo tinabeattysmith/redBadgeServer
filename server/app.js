@@ -2,8 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const sequelize = require('./db');
-const controllers = require('./controllers/controllerIndex');
-const { User, PantryItem } = require('./controllers/controllerIndex');
+const { User, PantryItem, Request } = require('./controllers/controllerIndex');
 
 sequelize.sync(); //pass in {force: true} to reset tables
 
@@ -14,6 +13,7 @@ app.use('/user', User);
 
 // Protected route
 app.use('/item', require('./middleware/validate-session'), PantryItem);
+app.use('/request', require('./middleware/validate-session'), Request);
 
 
 app.listen(3050, function() {
