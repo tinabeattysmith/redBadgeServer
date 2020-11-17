@@ -13,6 +13,4 @@ const roleModel=
             allowNull: false,
         }
     });
-
-// roleModel.sync(); //pass in {force: true} to reset tables
 module.exports = roleModel;

@@ -1,4 +1,4 @@
-const { CategoryModel } = require("../models/modelsIndex");
+const { CategoryModel, PantryItemModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
 const categoryController = Router();
@@ -34,7 +34,9 @@ categoryController.post("/createCategory", async (req, res) => {
  ************************/
 categoryController.get("/viewCategories", async (req, res) => {
   try {
-    let viewRequests = await CategoryModel.findAll().then((data) => {
+    let viewRequests = await CategoryModel.findAll({
+      include: PantryItemModel,
+    }).then((data) => {
       if (data) {
         res.status(200).json(data);
       } else {
@@ -56,7 +58,8 @@ categoryController.get("/viewCategories", async (req, res) => {
 categoryController.get("/categoryInfo/:id", async (req, res) => {
   try {
     let categoryInfo = await CategoryModel.findOne({
-      where: {id: req.params.id}
+      where: {id: req.params.id},
+      include: PantryItemModel,
     }
     ).then((data) => {
       if (data) {

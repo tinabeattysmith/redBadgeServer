@@ -19,5 +19,4 @@ const requestModel=
         }
     });
 
-    // requestModel.sync(); //pass in {force: true} to reset tables
 module.exports = requestModel;

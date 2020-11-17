@@ -1,10 +1,11 @@
-const UserModel = require("../models/user");
+// const UserModel = require("../models/user");
 const sequelize = require("../db");
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
 const validateSession = require("../middleware/validate-session");
+const { UserModel, RoleModel } = require("../models/modelsIndex");
 const userController = Router();
 
 /******************
@@ -53,6 +54,7 @@ userController.post("/login", async (req, res) => {
   try {
     let loginUser = await UserModel.findOne({ 
       where: { userName: userName },
+      include: RoleModel,
     });
     if (loginUser && (await bcrypt.compare(password, loginUser.passwordHash))) { 
       const token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET); 
@@ -80,6 +82,7 @@ userController.get("/userInfo/:id", validateSession, async (req, res) => {
   try {
     const UserInfo = await UserModel.findOne({
       where: { id: req.params.id },
+      include: RoleModel,
     }
     ).then((data) => {
       if (data) {
@@ -102,7 +105,9 @@ userController.get("/userInfo/:id", validateSession, async (req, res) => {
 //route is protected.
 userController.get("/viewUsers", validateSession, async (req, res) => {
   try {
-    let allUsers = await UserModel.findAll().then((data) => {
+    let allUsers = await UserModel.findAll({
+      include: RoleModel,
+    }).then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
       } else {

@@ -1,4 +1,4 @@
-const { RoleModel } = require("../models/modelsIndex");
+const { RoleModel, UserModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
 const roleController = Router();
@@ -34,7 +34,9 @@ roleController.post("/createRole", async (req, res) => {
  ************************/
 roleController.get("/viewRoles", async (req, res) => {
   try {
-    let allRole = await RoleModel.findAll().then((data) => {
+    let allRole = await RoleModel.findAll({
+      include: UserModel,
+    }).then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
       } else {
@@ -56,7 +58,8 @@ roleController.get("/viewRoles", async (req, res) => {
 roleController.get("/roleInfo/:id", async (req, res) => {
   try {
     let allRoles = await RoleModel.findOne({
-      where: {id: req.params.id}
+      where: {id: req.params.id},
+      include: UserModel,
     }
     ).then((data) => {
       if (data) {
