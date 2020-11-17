@@ -6,7 +6,7 @@ const pantryItemController = Router();
 /******************
  * POST: Create panty item
  ******************/
-pantryItemController.post("/create", async (req, res) => {
+pantryItemController.post("/createItem", async (req, res) => {
   let {
     itemName,
     itemDescription,
@@ -40,7 +40,7 @@ pantryItemController.post("/create", async (req, res) => {
 /************************
  * GET: all pantry items
  ************************/
-pantryItemController.get("/all", async (req, res) => {
+pantryItemController.get("/viewItems", async (req, res) => {
   try {
     let allItems = await PantryItemModel.findAll().then((data) => {
       if (data.length > 0) {
@@ -53,6 +53,30 @@ pantryItemController.get("/all", async (req, res) => {
     {
       res.status(500).json({
         message: `Failed to retrieve lists ${err}`,
+      });
+    }
+  }
+});
+
+/************************
+ * GET: single pantry item
+ ************************/
+pantryItemController.get("/itemInfo/:id", async (req, res) => {
+  try {
+    const ItemInfo = await PantryItemModel.findOne({
+      where: { id: req.params.id },
+    }
+    ).then((data) => {
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).json({ message: "Pantry Item not found." });
+      }
+    });
+  } catch (err) {
+    {
+      res.status(500).json({
+        message: `Failed to retrieve pantry item ${err}.`,
       });
     }
   }

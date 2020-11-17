@@ -1,48 +1,41 @@
-const { RequestModel } = require("../models/modelsIndex");
+const { CategoryModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
-const requestController = Router();
+const categoryController = Router();
 
 /******************
- * POST: Create request item
+ * POST: Create category
  ******************/
-requestController.post("/createRequest", async (req, res) => {
+categoryController.post("/createCategory", async (req, res) => {
   let {
-    requestName,
-    requestApproved,
-    requestComment,
-  } = req.body.request;
-  console.log(
-    requestName,
-    requestApproved,
-    requestComment
-  );
+    categoryName,
+    categoryDescription,
+  } = req.body.category;
 
   try {
-    await RequestModel.create({
-      requestName: requestName,
-      requestApproved: requestApproved,
-      requestComment: requestComment,
+    await CategoryModel.create({
+      categoryName: categoryName,
+      categoryDescription: categoryDescription,
     }).then((data) => {
       res.status(200).json({
         data: data,
-        message: "Request successfully created!",
+        message: "Category successfully created.",
       });
     });
   } catch (err) {
     res.status(500).json({
-      message: `Request creation failed ${err}`,
+      message: `Category creation failed ${err}.`,
     });
   }
 });
 
 /************************
- * GET: all requests
+ * GET: all categories
  ************************/
-requestController.get("/viewRequest", async (req, res) => {
+categoryController.get("/viewCategories", async (req, res) => {
   try {
-    let viewRequests = await RequestModel.findAll().then((data) => {
-      if (data.length > 0) {
+    let viewRequests = await CategoryModel.findAll().then((data) => {
+      if (data) {
         res.status(200).json(data);
       } else {
         res.status(404).json({ message: "No requests found." });
@@ -51,45 +44,34 @@ requestController.get("/viewRequest", async (req, res) => {
   } catch (err) {
     {
       res.status(500).json({
-        message: `Failed to retrieve request ${err}`,
+        message: `Failed to retrieve request ${err}.`,
       });
     }
   }
 });
 
 /************************
- * PUT: Update request
+ * GET: single category
  ************************/
-requestController.put("/updateRequest/:id", async (req, res) => {
-  const requestID = req.params.id;
-  let {
-    requestApproved,
-    requestComment,
-  } = req.body.request;
- 
+categoryController.get("/categoryInfo/:id", async (req, res) => {
   try {
-    let updateRequest = await RequestModel.findOne({
-      where: { id: itemID },
-    })
-      if (updateRequest) {
-        updateRequest.update({
-          // requestName should not be updated
-          requestApproved: requestApproved,
-          requestComment: requestComment
-      });
-      res.status(200).json({updateRequest,
-      message: 'Request successfully updated'})
-      } 
-      else {
-        res.status(404).json({ message: "Request not found." });
+    let categoryInfo = await CategoryModel.findOne({
+      where: {id: req.params.id}
+    }
+    ).then((data) => {
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).json({ message: "Category not found." });
       }
+    });
   } catch (err) {
     {
       res.status(500).json({
-        message: `Failed to retrieve item ${err}`,
+        message: `Failed to retrieve category ${err}.`,
       });
     }
   }
 });
 
-module.exports = requestController;
+module.exports = categoryController;

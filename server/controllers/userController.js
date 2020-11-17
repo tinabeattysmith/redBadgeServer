@@ -43,7 +43,6 @@ userController.post("/register", async (req, res) => {
     }
 });
 
-
 /************************
  * Login Route
  ************************/
@@ -70,6 +69,52 @@ userController.post("/login", async (req, res) => {
     res.status(500).json({
       message: `Error Logging In. ${err}`,
     });
+  }
+});
+
+/************************
+ * GET: single user
+ ************************/
+//route is protected.
+userController.get("/userInfo/:id", validateSession, async (req, res) => {
+  try {
+    const UserInfo = await UserModel.findOne({
+      where: { id: req.params.id },
+    }
+    ).then((data) => {
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).json({ message: "User not found." });
+      }
+    });
+  } catch (err) {
+    {
+      res.status(500).json({
+        message: `Failed to retrieve user ${err}.`,
+      });
+    }
+  }
+});
+/************************
+ * GET: all users
+ ************************/
+//route is protected.
+userController.get("/viewUsers", validateSession, async (req, res) => {
+  try {
+    let allUsers = await UserModel.findAll().then((data) => {
+      if (data.length > 0) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).json({ message: "No users found." });
+      }
+    });
+  } catch (err) {
+    {
+      res.status(500).json({
+        message: `Failed to retrieve users ${err}.`,
+      });
+    }
   }
 });
 

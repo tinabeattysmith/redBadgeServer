@@ -12,11 +12,6 @@ requestController.post("/createRequest", async (req, res) => {
     requestApproved,
     requestComment,
   } = req.body.request;
-  console.log(
-    requestName,
-    requestApproved,
-    requestComment
-  );
 
   try {
     await RequestModel.create({
@@ -39,9 +34,9 @@ requestController.post("/createRequest", async (req, res) => {
 /************************
  * GET: all requests
  ************************/
-requestController.get("/viewRequest", async (req, res) => {
+requestController.get("/viewRequests", async (req, res) => {
   try {
-    let viewRequests = await RequestModel.findAll().then((data) => {
+    let allRequests = await RequestModel.findAll().then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
       } else {
@@ -52,6 +47,30 @@ requestController.get("/viewRequest", async (req, res) => {
     {
       res.status(500).json({
         message: `Failed to retrieve request ${err}`,
+      });
+    }
+  }
+});
+
+/************************
+ * GET: single request
+ ************************/
+requestController.get("/requestInfo/:id", async (req, res) => {
+  try {
+    let requestInfo = await RequestModel.findOne({
+      where: {id: req.params.id}
+    }
+    ).then((data) => {
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).json({ message: "Request not found." });
+      }
+    });
+  } catch (err) {
+    {
+      res.status(500).json({
+        message: `Failed to retrieve request ${err}.`,
       });
     }
   }
