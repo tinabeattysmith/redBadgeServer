@@ -14,8 +14,8 @@ roleController.post("/createRole", async (req, res) => {
  
   try {
     await RoleModel.create({
-      roleName: roleName,
-      roleDescription: roleDescription
+      roleName,
+      roleDescription
     }).then((data) => {
       res.status(200).json({
         data: data,

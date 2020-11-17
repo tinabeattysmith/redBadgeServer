@@ -1,11 +1,11 @@
-// const UserModel = require("../models/user");
+const UserModel = require("../models/user");
 const sequelize = require("../db");
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
 const validateSession = require("../middleware/validate-session");
-const { UserModel, RoleModel } = require("../models/modelsIndex");
+const { RoleModel } = require("../models/modelsIndex");
 const userController = Router();
 
 /******************
@@ -13,14 +13,15 @@ const userController = Router();
  ******************/
 
 userController.post("/register", async (req, res) => {
-    let { firstName, lastName, userName, password } = req.body.user;
+    let { firstName, lastName, userName, password, roleId } = req.body.user;
     //console.log(firstName, lastName, userName, password);
     
     try {
       await UserModel.create({ 
-        firstName: firstName,
-        lastName: lastName,
-        userName: userName,
+        roleId,
+        firstName,
+        lastName,
+        userName,
         passwordHash: bcrypt.hashSync(password, 10),
       }).then((data) => {
         const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET); 
@@ -33,7 +34,7 @@ userController.post("/register", async (req, res) => {
     } catch (err) {
       if (err instanceof UniqueConstraintError) {
         res.status(409).json({
-          message: "Account with that email already taken.",
+          message: "Account with that userName already exists.",
         });
       } else {
         res.status(500).json({
@@ -49,12 +50,11 @@ userController.post("/register", async (req, res) => {
  ************************/
 
 userController.post("/login", async (req, res) => {
-  let { userName, password } = req.body;
+  let { userName, password } = req.body.user;
     console.log(userName)
   try {
     let loginUser = await UserModel.findOne({ 
-      where: { userName: userName },
-      include: RoleModel,
+      where: { userName }
     });
     if (loginUser && (await bcrypt.compare(password, loginUser.passwordHash))) { 
       const token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET); 

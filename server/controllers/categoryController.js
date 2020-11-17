@@ -14,8 +14,8 @@ categoryController.post("/createCategory", async (req, res) => {
 
   try {
     await CategoryModel.create({
-      categoryName: categoryName,
-      categoryDescription: categoryDescription,
+      categoryName,
+      categoryDescription,
     }).then((data) => {
       res.status(200).json({
         data: data,
