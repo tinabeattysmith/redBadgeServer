@@ -1,4 +1,4 @@
-const { MealModel } = require("../models/modelsIndex");
+const { MealModel, PantryItemModel, ItemMeal } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
 const mealController = Router();
@@ -11,14 +11,17 @@ mealController.post("/createMeal", async (req, res) => {
     mealName,
     mealDescription,
     mealComment,
+    itemId
   } = req.body.meal;
  
   try {
     await MealModel.create({
-      mealName: mealName,
-      mealDescription: mealDescription,
-      mealComment: mealComment,
-    }).then((data) => {
+      mealName,
+      mealDescription,
+      mealComment,
+      itemId
+    })
+    .then((data) => {
       res.status(200).json({
         data: data,
         message: "Meal successfully created!",
@@ -36,7 +39,9 @@ mealController.post("/createMeal", async (req, res) => {
  ************************/
 mealController.get("/viewMeals", async (req, res) => {
   try {
-    let allMeals = await MealModel.findAll().then((data) => {
+    let allMeals = await MealModel.findAll({
+      include: [ItemMeal,]
+    }).then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
       } else {
@@ -84,6 +89,7 @@ mealController.put("/updateMeal/:id", async (req, res) => {
     mealName,
     mealDescription,
     mealComment,
+    itemId
   } = req.body.meal;
    try {
     let updateMeal = await MealModel.findOne({
@@ -94,6 +100,7 @@ mealController.put("/updateMeal/:id", async (req, res) => {
         mealName: mealName,
         mealDescription: mealDescription,
         mealComment: mealComment,
+        itemId
       });
       res.status(200).json({updateMeal,
       message: 'Meal successfully updated.'})

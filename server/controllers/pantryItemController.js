@@ -1,7 +1,6 @@
-const { PantryItemModel, CategoryModel } = require("../models/modelsIndex");
+const { PantryItemModel, CategoryModel, MealModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
-const { Category } = require("./controllerIndex");
 const pantryItemController = Router();
 
 /******************
@@ -15,16 +14,20 @@ pantryItemController.post("/createItem", async (req, res) => {
     itemPrice,
     isUsed,
     itemComment,
+    mealId,
+    categoryId
   } = req.body.pantryItem;
  
   try {
     await PantryItemModel.create({
-      itemName: itemName,
-      itemDescription: itemDescription,
-      importance: importance,
-      itemPrice: itemPrice,
-      isUsed: isUsed,
-      itemComment: itemComment,
+      itemName,
+      itemDescription,
+      importance,
+      itemPrice,
+      isUsed,
+      itemComment,
+      mealId,
+      categoryId,
     }).then((data) => {
       res.status(200).json({
         data: data,
@@ -44,7 +47,7 @@ pantryItemController.post("/createItem", async (req, res) => {
 pantryItemController.get("/viewItems", async (req, res) => {
   try {
     let allItems = await PantryItemModel.findAll({
-      include: Category,
+      include: [CategoryModel, MealModel]
     }).then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
@@ -68,7 +71,7 @@ pantryItemController.get("/itemInfo/:id", async (req, res) => {
   try {
     const ItemInfo = await PantryItemModel.findOne({
       where: { id: req.params.id },
-      include: CategoryModel,
+      include: [CategoryModel, MealModel]
     }
     ).then((data) => {
       if (data) {
@@ -98,6 +101,8 @@ pantryItemController.put("/update/:id", async (req, res) => {
     itemPrice,
     isUsed,
     itemComment,
+    mealId,
+    categoryId,
   } = req.body.pantryItem;
  
   try {
@@ -106,12 +111,14 @@ pantryItemController.put("/update/:id", async (req, res) => {
     })
       if (updateItem) {
         updateItem.update({
-        itemName: itemName,
-        itemDescription: itemDescription,
-        importance: importance,
-        itemPrice: itemPrice,
-        isUsed: isUsed,
-        itemComment: itemComment,
+        itemName,
+        itemDescription,
+        importance,
+        itemPrice,
+        isUsed,
+        itemComment,
+        mealId,
+        categoryId,
       });
       res.status(200).json({updateItem,
       message: 'Item successfully updated'})

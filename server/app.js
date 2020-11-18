@@ -20,6 +20,6 @@ app.use('/meal', require('./middleware/validate-session'), Meal);
 app.use('/role', require('./middleware/validate-session'), Role);
 
 
-app.listen(3050, function() {
-    console.log('App is listening on port 3050.')
+app.listen(process.env.PORT, function() {
+    console.log(`App is listening on port ${process.env.PORT}.`)
 });
