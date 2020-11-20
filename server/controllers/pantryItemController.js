@@ -47,7 +47,7 @@ pantryItemController.post("/createItem", async (req, res) => {
 pantryItemController.get("/viewItems", async (req, res) => {
   try {
     await PantryItemModel.findAll({
-      include: CategoryModel
+      include: [CategoryModel, MealModel]
     }).then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
@@ -71,7 +71,7 @@ pantryItemController.get("/itemInfo/:id", async (req, res) => {
   try {
     const ItemInfo = await PantryItemModel.findOne({
       where: { id: req.params.id },
-      include: CategoryModel
+      include: [CategoryModel, MealModel]
     }
     ).then((data) => {
       if (data) {

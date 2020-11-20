@@ -13,7 +13,6 @@ module.exports = {
   MealModel,
   RoleModel,
   RequestModel,
-
 };
 
 // Associations
@@ -42,6 +41,6 @@ item.belongsTo(meal);
 // item.hasMany(meal);
 // meal.belongsTo(item);
 
-// PantryItemModel.belongsToMany(MealModel,{through: "itemMeal",});
+item.belongsToMany(meal,{through: "itemMeal",});
 
-// MealModel.belongsToMany(PantryItemModel,{through: "itemMeal",});
+meal.belongsToMany(item,{through: "itemMeal",});
