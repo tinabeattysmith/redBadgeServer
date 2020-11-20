@@ -1,7 +1,7 @@
 const { PantryItemModel, CategoryModel, MealModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
-const { Router } = require("express");
-const pantryItemController = Router();
+const express = require("express");
+const pantryItemController = express.Router();
 
 /******************
  * POST: Create panty item
@@ -27,7 +27,7 @@ pantryItemController.post("/createItem", async (req, res) => {
       isUsed,
       itemComment,
       mealId,
-      categoryId,
+      categoryId,     
     }).then((data) => {
       res.status(200).json({
         data: data,
@@ -46,8 +46,8 @@ pantryItemController.post("/createItem", async (req, res) => {
  ************************/
 pantryItemController.get("/viewItems", async (req, res) => {
   try {
-    let allItems = await PantryItemModel.findAll({
-      include: [CategoryModel, MealModel]
+    await PantryItemModel.findAll({
+      include: CategoryModel
     }).then((data) => {
       if (data.length > 0) {
         res.status(200).json(data);
@@ -71,7 +71,7 @@ pantryItemController.get("/itemInfo/:id", async (req, res) => {
   try {
     const ItemInfo = await PantryItemModel.findOne({
       where: { id: req.params.id },
-      include: [CategoryModel, MealModel]
+      include: CategoryModel
     }
     ).then((data) => {
       if (data) {

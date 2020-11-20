@@ -4,7 +4,7 @@ const CategoryModel = require('./category');
 const MealModel = require('./meal');
 const RequestModel = require('./request');
 const RoleModel = require('./role');
-const ItemMeal = require('./ItemMeal');
+
 
 module.exports = {
   UserModel: userModel,
@@ -13,7 +13,7 @@ module.exports = {
   MealModel,
   RoleModel,
   RequestModel,
-  ItemMeal,
+
 };
 
 // Associations
@@ -22,7 +22,7 @@ let role = require('./role');
 let category = require('./category');
 let item = require('./pantryItem');
 let meal = require('./meal');
-let itemMeal = require('./ItemMeal')
+// let itemMeal = require('./itemMeal')
 
 // 1:M, role has many usesr.  An user belongs to a role.  
 // user table receives roleId
@@ -35,16 +35,13 @@ category.hasMany(item);
 item.belongsTo(category);
 
 // 1:M, meal has many items.  An item belongs to a meal.  
-meal.hasMany(itemMeal);
-itemMeal.belongsTo(meal);
+meal.hasMany(item);
+item.belongsTo(meal);
 
 // 1:M, meal has many items.  An item belongs to a meal.  
-item.hasMany(itemMeal);
-itemMeal.belongsTo(item);
+// item.hasMany(meal);
+// meal.belongsTo(item);
 
-// M:M
-// item.belongsToMany(meal, 
-//   { through: 'ItemMeal', });
+// PantryItemModel.belongsToMany(MealModel,{through: "itemMeal",});
 
-// meal.belongsToMany(item, 
-//   { through: 'ItemMeal' });
+// MealModel.belongsToMany(PantryItemModel,{through: "itemMeal",});

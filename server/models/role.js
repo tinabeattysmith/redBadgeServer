@@ -7,6 +7,7 @@ const roleModel=
         roleName: {
             type: DataTypes.STRING,
             allowNull: false,
+            // enum: ["basic", "supervisor", "admin"]
         },
         roleDescription: {
             type: DataTypes.STRING,

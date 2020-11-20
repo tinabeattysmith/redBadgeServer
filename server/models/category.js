@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
+const {PantryItemModel} = require('./modelsIndex');
 
 const categoryModel=
     sequelize.define('category', 
