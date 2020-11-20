@@ -41,6 +41,6 @@ item.belongsTo(meal);
 // item.hasMany(meal);
 // meal.belongsTo(item);
 
-item.belongsToMany(meal,{through: "itemMeal",});
+// item.belongsToMany(meal,{through: "itemMeal",});
 
-meal.belongsToMany(item,{through: "itemMeal",});
+// meal.belongsToMany(item,{through: "itemMeal",});
