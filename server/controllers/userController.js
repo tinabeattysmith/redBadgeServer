@@ -105,7 +105,7 @@ userController.get("/userInfo/:id", validateSession, async (req, res) => {
 //route is protected.
 userController.get("/viewUsers", validateSession, async (req, res) => {
   try {
-    let allUsers = await UserModel.findAll({
+    await UserModel.findAll({
       include: RoleModel,
     }).then((data) => {
       if (data.length > 0) {

@@ -38,8 +38,8 @@ meal.hasMany(item);
 item.belongsTo(meal);
 
 // 1:M, meal has many items.  An item belongs to a meal.  
-// item.hasMany(meal);
-// meal.belongsTo(item);
+item.hasMany(meal, {constraints: false});
+meal.belongsTo(item, {constraints: false});
 
 // item.belongsToMany(meal,{through: "itemMeal",});
 
