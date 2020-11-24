@@ -51,7 +51,6 @@ userController.post("/register", async (req, res) => {
 
 userController.post("/login", async (req, res) => {
   let { userName, password } = req.body.user;
-    console.log(userName)
   try {
     let loginUser = await UserModel.findOne({ 
       where: { userName }
@@ -129,7 +128,7 @@ userController.get("/viewUsers", validateSession, async (req, res) => {
 //route is protected.
 userController.delete("/deleteuser", validateSession, async (req, res) => {
   try {
-    const removedUser = await UserModel.destroy({
+    await UserModel.destroy({
       where: { id: req.user.id },
     }).then((data) => {
       res.status(200).json({ message: "User succesfully deleted!" });
