@@ -17,8 +17,6 @@ app.use(express.json());
 
 // Non-protected route
 app.use("/user", User);
-// app.use('/item', PantryItem);
-// app.use('/meal', Meal);
 
 // Protected route
 app.use("/item", require("./middleware/validate-session"), PantryItem);
